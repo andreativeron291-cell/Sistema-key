@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Troll Hub - Key System</title>
+    <style>
+        body {
+            background-color: #0b0b12;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: #141422;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(180, 0, 255, 0.3);
+            text-align: center;
+            width: 350px;
+            border: 2px solid #b400ff;
+        }
+        h2 { color: #dc50ff; margin-bottom: 10px; }
+        p { color: #a0a0c0; font-size: 14px; }
+        button {
+            background-color: #7b00b4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: 0.2s;
+        }
+        button:hover { background-color: #9a00e0; }
+        #keyDisplay {
+            margin-top: 20px;
+            background: #1e1e30;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #50ff8c;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🌟 MEGA TROLL HUB</h2>
+        <p>Ottieni la tua Key per accedere allo script</p>
+        
+        <button onclick="generateKey()">GENERA KEY</button>
+        
+        <div id="keyDisplay" style="display:none;"></div>
+    </div>
+
+    <script>
+        // Inserisci qui i tuoi dati pubblici di Supabase
+        const SUPABASE_URL = "IL_TUO_SUPABASE_URL";
+        const SUPABASE_ANON_KEY = "LA_TUA_SUPABASE_ANON_KEY";
+
+        async function generateKey() {
+            const display = document.getElementById("keyDisplay");
+            display.style.display = "block";
+            display.innerText = "Generazione in corso...";
+
+            try {
+                // Esempio di chiamata alla tua Edge Function o direttamente al database
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/super-api`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                    },
+                    body: JSON.stringify({ action: "generate_key" })
+                });
+
+                const data = await response.json();
+                if (data.key) {
+                    display.innerText = "Tua Key: " + data.key;
+                } else {
+                    display.innerText = "Errore nella generazione.";
+                }
+            } catch (err) {
+                display.innerText = "Errore di connessione al server.";
+            }
+        }
+    </script>
+</body>
+</html>
