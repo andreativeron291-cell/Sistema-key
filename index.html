@@ -49,6 +49,7 @@
             font-family: monospace;
             color: #50ff8c;
             word-break: break-all;
+            user-select: all;
         }
     </style>
 </head>
@@ -64,9 +65,8 @@
     </div>
 
     <script>
-        // Inserisci qui i tuoi dati pubblici di Supabase
-        const SUPABASE_URL = "IL_TUO_SUPABASE_URL";
-        const SUPABASE_ANON_KEY = "LA_TUA_SUPABASE_ANON_KEY";
+        const SUPABASE_URL = "https://sjnuxfkcvstypesonwyy.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqbnV4ZmtjdnN0eXBlc29ud3l5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MTc3MDgsImV4cCI6MjA3NTQ5MzcwOH0.r9N1oT1-2dZk1v8K3Wn6X5y4Q9s2T1p8L0m4N7v2X1c";
 
         async function generateKey() {
             const display = document.getElementById("keyDisplay");
@@ -74,7 +74,6 @@
             display.innerText = "Generazione in corso...";
 
             try {
-                // Esempio di chiamata alla tua Edge Function o direttamente al database
                 const response = await fetch(`${SUPABASE_URL}/functions/v1/super-api`, {
                     method: "POST",
                     headers: {
@@ -88,7 +87,7 @@
                 if (data.key) {
                     display.innerText = "Tua Key: " + data.key;
                 } else {
-                    display.innerText = "Errore nella generazione.";
+                    display.innerText = "Errore: " + (data.error || "Impossibile generare la key.");
                 }
             } catch (err) {
                 display.innerText = "Errore di connessione al server.";
